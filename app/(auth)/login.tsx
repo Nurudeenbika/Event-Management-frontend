@@ -43,12 +43,12 @@ export default function LoginScreen() {
         <MaterialIcons name="event" size={28} color={theme.text} />
         <Text style={styles.brand}>Vasrefil Event Management</Text>
       </Animated.View>
-      <Animated.Text
+      {/* <Animated.Text
         entering={FadeInUp.delay(300).duration(800)}
         style={styles.title}
       >
         Login
-      </Animated.Text>
+      </Animated.Text> */}
       {/* <Text style={styles.title}>Login</Text> */}
 
       <TextInput
@@ -78,6 +78,15 @@ export default function LoginScreen() {
           />
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity
+        onPress={() => router.push("/(auth)/forgot-password")} // or your desired route
+        style={{ alignSelf: "flex-end", marginBottom: 15 }}
+      >
+        <Text style={[styles.linkText, { fontSize: 14 }]}>
+          Forgot Password?
+        </Text>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
@@ -148,7 +157,7 @@ function createStyles(
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: 10,
+      marginBottom: 100,
       gap: 8,
     },
     brand: {
@@ -160,7 +169,7 @@ function createStyles(
       color: theme.text,
     },
     buttonText: {
-      color: theme.text,
+      color: "#fff",
       fontSize: 16,
       fontWeight: "bold",
     },

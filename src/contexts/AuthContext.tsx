@@ -65,7 +65,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (name: string, email: string, password: string) => {
     try {
       const response = await apiClient.post("/auth/register", {
-        name,
         email,
         password,
       });
@@ -77,6 +76,41 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await storage.setItem("user", JSON.stringify(response.user));
     } catch (error) {
       throw error;
+    }
+  };
+
+  const resetPassword = async (email: string) => {
+    try {
+      // Make API call to request password reset
+      const response = await apiClient.post("/auth/reset-password", {
+        email,
+      });
+
+      // Return success message or any relevant data
+      return {
+        success: true,
+        message: response.message || "Password reset email sent successfully",
+      };
+    } catch (error) {
+      // Handle different types of errors
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error &&
+        typeof (error as any).response === "object"
+      ) {
+        const response = (error as any).response;
+        if (response?.status === 404) {
+          throw new Error("No account found with this email address");
+        } else if (response?.status === 429) {
+          throw new Error("Too many reset attempts. Please try again later");
+        } else if (response?.data?.message) {
+          throw new Error(response.data.message);
+        }
+      }
+      throw new Error(
+        "Failed to send password reset email. Please try again"
+      );
     }
   };
 
@@ -92,6 +126,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loading,
     login,
     register,
+    resetPassword,
     logout,
   };
 
