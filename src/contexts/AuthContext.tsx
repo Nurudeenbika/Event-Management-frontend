@@ -62,9 +62,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (
+    username: string,
+    email: string,
+    password: string
+  ) => {
     try {
       const response = await apiClient.post("/auth/register", {
+        username,
         email,
         password,
       });
@@ -108,9 +113,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           throw new Error(response.data.message);
         }
       }
-      throw new Error(
-        "Failed to send password reset email. Please try again"
-      );
+      throw new Error("Failed to send password reset email. Please try again");
     }
   };
 

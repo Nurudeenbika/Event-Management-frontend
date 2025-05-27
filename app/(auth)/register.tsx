@@ -15,6 +15,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 
 export default function RegisterScreen() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -35,7 +36,7 @@ export default function RegisterScreen() {
     }
 
     try {
-      await register(email, password);
+      await register(username, email, password);
       router.replace("/(tabs)");
     } catch (error) {
       console.error("Registration failed:", error);
@@ -67,6 +68,14 @@ export default function RegisterScreen() {
         <Text style={styles.brand}>Vasrefil Event Management</Text>
       </View> */}
       {/* <Text style={styles.title}>Create Account</Text> */}
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        placeholderTextColor={theme.placeholder}
+        value={username}
+        onChangeText={setUsername}
+        autoCapitalize="none"
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -178,7 +187,7 @@ function createStyles(
       marginBottom: 15,
     },
     buttonText: {
-      color: theme.text,
+      color: "#fff",
       fontSize: 16,
       fontWeight: "bold",
     },
