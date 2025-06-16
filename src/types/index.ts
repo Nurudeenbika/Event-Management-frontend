@@ -12,14 +12,24 @@ export interface Event {
   description: string;
   category: string;
   location: string;
+  venue: string;
   date: string;
   time: string;
+  price: number;
   totalSeats: number;
   availableSeats: number;
-  price: number;
   imageUrl?: string;
+  createdBy: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface EventFilters {
+  category: string;
+  location: string;
+  priceRange: [number, number];
+  dateRange: [Date | null, Date | null];
+  searchQuery: string;
 }
 
 export interface Booking {
@@ -38,11 +48,7 @@ export interface AuthContextType {
   token: string | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (
-    username: string,
-    email: string,
-    password: string
-  ) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
   resetPassword: (
     email: string
   ) => Promise<{ success: boolean; message: string }>;
@@ -53,7 +59,10 @@ export interface EventContextType {
   events: Event[];
   loading: boolean;
   error: string | null;
+  filters: EventFilters;
   filteredEvents: Event[];
+  setFilters: (filters: Partial<EventFilters>) => void;
+  refreshEvents: () => Promise<void>;
   searchQuery: string;
   selectedCategory: string;
   selectedDate: string;

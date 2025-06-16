@@ -52,24 +52,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await apiClient.post("/auth/login", { email, password });
 
-      setUser(response.user);
-      setToken(response.token);
+      setUser(response.data.user);
+      setToken(response.data.token);
 
-      await storage.setItem("authToken", response.token);
-      await storage.setItem("user", JSON.stringify(response.user));
+      await storage.setItem("authToken", response.data.token);
+      await storage.setItem("user", JSON.stringify(response.data.user));
     } catch (error) {
       throw error;
     }
   };
 
-  const register = async (
-    username: string,
-    email: string,
-    password: string
-  ) => {
+  const register = async (name: string, email: string, password: string) => {
     try {
       const response = await apiClient.post("/auth/register", {
-        username,
+        name,
         email,
         password,
       });
@@ -118,9 +114,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = async () => {
-    setUser(null);
-    setToken(null);
-    await storage.clear();
+    try {
+      setUser(null);
+      setToken(null);
+
+      await storage.removeItem("authToken");
+      await storage.removeItem("user");
+    } catch (error) {
+      console.error("Error during logout:", error);
+      throw error;
+    }
   };
 
   const value: AuthContextType = {

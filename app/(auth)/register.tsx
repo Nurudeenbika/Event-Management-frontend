@@ -15,7 +15,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 
 export default function RegisterScreen() {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,7 +36,7 @@ export default function RegisterScreen() {
     }
 
     try {
-      await register(username, email, password);
+      await register(name, email, password);
       router.replace("/(tabs)");
     } catch (error) {
       console.error("Registration failed:", error);
@@ -72,8 +72,8 @@ export default function RegisterScreen() {
         style={styles.input}
         placeholder="Username"
         placeholderTextColor={theme.placeholder}
-        value={username}
-        onChangeText={setUsername}
+        value={name}
+        onChangeText={setName}
         autoCapitalize="none"
       />
       <TextInput

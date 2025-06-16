@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/api"; // Replace with your backend URL
+const BASE_URL = "http://localhost:5000/api"; // Replace with your backend URL
 
 export const apiClient = {
   get: async (endpoint: string, token?: string) => {
